@@ -17,11 +17,13 @@ public class ThresholdEngine {
 
     if (data.Value >= currentThreshold.RedMin) {
       return RiskLevel.Red;
-    } else if (data.Value >= currentThreshold.YellowMin && data.Value <= currentThreshold.YellowMax) {
-      return RiskLevel.Yellow;
-    } else {
-      return RiskLevel.Green;
     }
+
+    if (data.Value >= currentThreshold.YellowMin && data.Value <= currentThreshold.YellowMax) {
+      return RiskLevel.Yellow;
+    }
+
+    return RiskLevel.Green;
   }
 
   public void Evaluate(IndicatorData data) {
