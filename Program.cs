@@ -1,6 +1,6 @@
 ﻿namespace EWIM;
 
-internal abstract class Program {
+internal static class Program {
   private static ThresholdEngine? _engine;
 
   private static async Task Main() {
