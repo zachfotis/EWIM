@@ -55,7 +55,7 @@ internal abstract class Program {
       };
 
       Console.ForegroundColor = ConsoleColor.Black;
-      Console.Write($"{riskLevel}");
+      Console.Write($" {riskLevel, -6} ");
       Console.ResetColor();
       Console.WriteLine("");
     }
@@ -67,7 +67,7 @@ internal abstract class Program {
       _ => ConsoleColor.Red
     };
     Console.ForegroundColor = ConsoleColor.Black;
-    Console.Write(overall);
+    Console.Write($" {overall} ");
     Console.ResetColor();
     Console.WriteLine("");
   }
