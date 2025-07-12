@@ -1,12 +1,13 @@
 namespace EWIM;
 
-  // Computes overall risk from individual indicator risks
 public static class MatrixCalculator {
-  public static RiskLevel ComputeOverallRisk(Dictionary<string, RiskLevel> indicatorRisks) {
-    if (indicatorRisks.ContainsValue(RiskLevel.Red)) {
+  public static RiskLevel ComputeOverallRisk(IndicatorData indicatorData) {
+    var risks = indicatorData.Risks;
+
+    if (risks.Any(r => r == RiskLevel.Red)) {
       return RiskLevel.Red;
     }
 
-    return indicatorRisks.ContainsValue(RiskLevel.Yellow) ? RiskLevel.Yellow : RiskLevel.Green;
+    return risks.Any(r => r == RiskLevel.Yellow) ? RiskLevel.Yellow : RiskLevel.Green;
   }
 }
