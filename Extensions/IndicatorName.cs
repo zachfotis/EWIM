@@ -1,13 +1,4 @@
-namespace EWIM;
-
-public enum IndicatorName {
-  ReturnFlowPercent,
-  PitGainBbl,
-  StandpipePressure,
-  Rop,
-  HookLoad,
-  MudWeight
-}
+using EWIM.Models;
 
 public static class IndicatorNameExtensions {
   public static string GetScreenName(this IndicatorName name) {

@@ -1,4 +1,4 @@
-namespace EWIM;
+namespace EWIM.Models;
 
 public enum RiskLevel {
   Green,
