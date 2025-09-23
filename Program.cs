@@ -1,11 +1,11 @@
-﻿using EWIM.Engine;
+﻿using EWIM.Classes;
 using EWIM.Models;
 using EWIM.Utilities;
 
 namespace EWIM;
 
 internal static class Program {
-  private static Indicators indicators = new Indicators();
+  private static readonly Indicators indicators = new();
 
   private static async Task Main() {
     RawIndicator returnFlow = new RawIndicator(IndicatorName.ReturnFlowPercent);
@@ -23,7 +23,6 @@ internal static class Program {
 
       pitGain.UpdateValue(rnd.NextDouble() * 3);
       indicators.UpdateIndicatorValue(pitGain);
-
 
       standpipePressure.UpdateValue(rnd.Next(300, 1200));
       indicators.UpdateIndicatorValue(standpipePressure);

@@ -1,7 +1,7 @@
 using EWIM.Engine;
 using EWIM.Models;
 
-namespace EWIM;
+namespace EWIM.Classes;
 
 public class Indicators {
   public List<Indicator> IndicatorsList { get; init; } = [];

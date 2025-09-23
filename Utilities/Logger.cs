@@ -1,4 +1,4 @@
-using EWIM;
+using EWIM.Classes;
 using EWIM.Models;
 
 namespace EWIM.Utilities;
