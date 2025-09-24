@@ -1,13 +1,30 @@
 ﻿using EWIM.Classes;
 using EWIM.Models;
 using EWIM.Utilities;
+using EWIM.System;
 
 namespace EWIM;
 
-internal static class Program {
+internal static class Program
+{
   private static readonly Indicators indicators = new();
 
-  private static async Task Main() {
+  static void Main(string[] args)
+  {
+    DSAPI Project = new DSAPI();
+
+    Project.Simulate();
+
+    while (Project.IsRunning)
+    {
+      // Run info data
+    }
+
+    Project.Exit();
+  }
+
+  private static async Task RunEWIM()
+  {
     RawIndicator returnFlow = new RawIndicator(IndicatorName.ReturnFlowPercent);
     RawIndicator pitGain = new RawIndicator(IndicatorName.PitGainBbl);
     RawIndicator standpipePressure = new RawIndicator(IndicatorName.StandpipePressure);
@@ -17,7 +34,8 @@ internal static class Program {
 
     var rnd = new Random();
 
-    while (true) {
+    while (true)
+    {
       returnFlow.UpdateValue(rnd.NextDouble() * 10);
       indicators.UpdateIndicatorValue(returnFlow);
 

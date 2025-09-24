@@ -7,4 +7,25 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+        <Reference Include="DbNetClient">
+            <HintPath>libs\DbNetClient.dll</HintPath>
+        </Reference>
+        <Reference Include="DbVariableLibrary">
+            <HintPath>libs\DbVariableLibrary.dll</HintPath>
+        </Reference>
+        <Reference Include="DrillSIM_API.Domain">
+            <HintPath>libs\DrillSIM_API.Domain.dll</HintPath>
+        </Reference>
+        <Reference Include="DSParser">
+            <HintPath>libs\DSParser.dll</HintPath>
+        </Reference>
+        <Reference Include="ImpromptuInterface">
+            <HintPath>libs\ImpromptuInterface.dll</HintPath>
+        </Reference>
+        <Reference Include="Ninject">
+            <HintPath>libs\Ninject.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+
 </Project>
