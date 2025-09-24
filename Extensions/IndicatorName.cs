@@ -9,6 +9,7 @@ public static class IndicatorNameExtensions {
       IndicatorName.Rop => "ROP (ft/hr)",
       IndicatorName.HookLoad => "Hook Load (lbs)",
       IndicatorName.MudWeight => "Mud Weight (ppg)",
+      IndicatorName.Wob => "Weight on Bit (lbs)",
       _ => throw new ArgumentOutOfRangeException(nameof(name), name, null)
     };
   }
