@@ -4,20 +4,16 @@ using EWIM.Classes;
 using EWIM.Utilities;
 using EWIM.System;
 
-namespace EWIM
-{
-  internal static class Program
-  {
+namespace EWIM {
+  internal static class Program {
     private static readonly Indicators indicators = new Indicators();
 
-    static async Task Main()
-    {
+    static async Task Main() {
       DSAPI Simulation = new DSAPI(indicators);
 
       Simulation.Simulate();
 
-      while (Simulation.IsRunning)
-      {
+      while (Simulation.IsRunning) {
         Logger.Log(indicators);
         await Task.Delay(2000);
       }
