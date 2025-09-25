@@ -1,7 +1,5 @@
-namespace EWIM.Models
-{
-  public enum IndicatorName
-  {
+namespace EWIM.Models {
+  public enum IndicatorName {
     Rop,
     Wob,
     ReturnFlowPercent,

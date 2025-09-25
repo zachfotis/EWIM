@@ -1,12 +1,9 @@
 using System;
 using EWIM.Models;
 
-public static class IndicatorNameExtensions
-{
-  public static string GetScreenName(this IndicatorName name)
-  {
-    switch (name)
-    {
+public static class IndicatorNameExtensions {
+  public static string GetScreenName(this IndicatorName name) {
+    switch (name) {
       case IndicatorName.ReturnFlowPercent:
         return "Return Flow (%)";
       case IndicatorName.PitGainBbl:

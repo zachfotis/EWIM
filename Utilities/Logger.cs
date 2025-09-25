@@ -2,40 +2,33 @@ using System;
 using EWIM.Classes;
 using EWIM.Models;
 
-namespace EWIM.Utilities
-{
-  public static class Logger
-  {
-    public static void Log(Indicators indicators)
-    {
+namespace EWIM.Utilities {
+  public static class Logger {
+    public static void Log(Indicators indicators) {
       PrintHeader();
 
-      foreach (var indicator in indicators.IndicatorsList)
-      {
+      foreach (var indicator in indicators.IndicatorsList) {
         PrintIndicatorDetails(indicator);
       }
 
       PrintOverallRisk(indicators.OverallRisk);
     }
 
-    private static void PrintHeader()
-    {
+    private static void PrintHeader() {
       Console.Clear();
       Console.WriteLine($"Timestamp: {DateTime.Now:HH:mm:ss}");
       Console.WriteLine($"{"Indicator",-21}{"Value",-9} Risk");
       Console.WriteLine("------------------------------------");
     }
 
-    private static void PrintIndicatorDetails(Indicator indicator)
-    {
+    private static void PrintIndicatorDetails(Indicator indicator) {
       var screenName = indicator.Name.GetScreenName();
       var value = indicator.Value;
       var riskLevel = indicator.RiskLevel;
 
       Console.Write($"{screenName,-21}{value,-9:F2}");
 
-      switch (riskLevel)
-      {
+      switch (riskLevel) {
         case RiskLevel.Green:
           Console.BackgroundColor = ConsoleColor.Green;
           break;
@@ -52,11 +45,9 @@ namespace EWIM.Utilities
       Console.WriteLine("");
     }
 
-    private static void PrintOverallRisk(RiskLevel overall)
-    {
+    private static void PrintOverallRisk(RiskLevel overall) {
       Console.Write("\nOverall Risk: ");
-      switch (overall)
-      {
+      switch (overall) {
         case RiskLevel.Green:
           Console.BackgroundColor = ConsoleColor.Green;
           break;

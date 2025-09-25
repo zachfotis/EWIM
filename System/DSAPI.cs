@@ -7,10 +7,8 @@ using System.Text;
 using EWIM.Classes;
 using EWIM.Models;
 
-namespace EWIM.System
-{
-    class DSAPI : WorkTemplate
-    {
+namespace EWIM.System {
+    class DSAPI : WorkTemplate {
         private readonly Indicators indicators;
         private readonly RawIndicator rop = new RawIndicator(IndicatorName.Rop);
         private readonly RawIndicator wob = new RawIndicator(IndicatorName.Wob);
@@ -20,18 +18,15 @@ namespace EWIM.System
         private readonly RawIndicator hookLoad = new RawIndicator(IndicatorName.HookLoad);
         private readonly RawIndicator mudWeight = new RawIndicator(IndicatorName.MudWeight);
 
-        public DSAPI(Indicators indicators)
-        {
+        public DSAPI(Indicators indicators) {
             this.indicators = indicators;
         }
 
-        protected override void Initialise()
-        {
+        protected override void Initialise() {
             WellControlManager.Instance.EnablePackage();
         }
 
-        protected override void Update()
-        {
+        protected override void Update() {
             rop.UpdateValue(WellControlManager.ROP.Get());
             indicators.UpdateIndicatorValue(rop);
 
