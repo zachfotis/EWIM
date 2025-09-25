@@ -1,16 +1,28 @@
+using System;
 using EWIM.Models;
 
-public static class IndicatorNameExtensions {
-  public static string GetScreenName(this IndicatorName name) {
-    return name switch {
-      IndicatorName.ReturnFlowPercent => "Return Flow (%)",
-      IndicatorName.PitGainBbl => "Pit Gain (bbl)",
-      IndicatorName.StandpipePressure => "SPP (psi)",
-      IndicatorName.Rop => "ROP (ft/hr)",
-      IndicatorName.HookLoad => "Hook Load (lbs)",
-      IndicatorName.MudWeight => "Mud Weight (ppg)",
-      IndicatorName.Wob => "Weight on Bit (lbs)",
-      _ => throw new ArgumentOutOfRangeException(nameof(name), name, null)
-    };
+public static class IndicatorNameExtensions
+{
+  public static string GetScreenName(this IndicatorName name)
+  {
+    switch (name)
+    {
+      case IndicatorName.ReturnFlowPercent:
+        return "Return Flow (%)";
+      case IndicatorName.PitGainBbl:
+        return "Pit Gain (bbl)";
+      case IndicatorName.StandpipePressure:
+        return "SPP (psi)";
+      case IndicatorName.Rop:
+        return "ROP (ft/hr)";
+      case IndicatorName.HookLoad:
+        return "Hook Load (lbs)";
+      case IndicatorName.MudWeight:
+        return "Mud Weight (ppg)";
+      case IndicatorName.Wob:
+        return "Weight on Bit (lbs)";
+      default:
+        throw new ArgumentOutOfRangeException(nameof(name), name, null);
+    }
   }
 }

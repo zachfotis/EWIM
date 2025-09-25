@@ -1,6 +1,8 @@
-namespace EWIM.Models;
-
-public class Threshold {
-  public double GreenMax { get; init; }
-  public double YellowMax { get; init; }
+namespace EWIM.Models
+{
+  public class Threshold
+  {
+    public double GreenMax { get; set; }
+    public double YellowMax { get; set; }
+  }
 }

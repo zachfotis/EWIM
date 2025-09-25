@@ -1,7 +1,9 @@
-namespace EWIM.Models;
-
-public enum RiskLevel {
-  Green,
-  Yellow,
-  Red
+namespace EWIM.Models
+{
+  public enum RiskLevel
+  {
+    Green,
+    Yellow,
+    Red
+  }
 }

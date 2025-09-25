@@ -1,23 +1,29 @@
-﻿using EWIM.Classes;
+﻿using System;
+using System.Threading.Tasks;
+using EWIM.Classes;
 using EWIM.Utilities;
 using EWIM.System;
 
-namespace EWIM;
+namespace EWIM
+{
+  internal static class Program
+  {
+    private static readonly Indicators indicators = new Indicators();
 
-internal static class Program {
-  private static readonly Indicators indicators = new Indicators();
+    static async Task Main()
+    {
+      DSAPI Simulation = new DSAPI(indicators);
 
-  static async Task Main() {
-    DSAPI Simulation = new DSAPI(indicators);
+      Simulation.Simulate();
 
-    Simulation.Simulate();
+      while (Simulation.IsRunning)
+      {
+        Logger.Log(indicators);
+        await Task.Delay(2000);
+      }
 
-    while (Simulation.IsRunning) {
-      Logger.Log(indicators);
-      await Task.Delay(2000);
+      Simulation.Exit();
     }
 
-    Simulation.Exit();
   }
-
 }
