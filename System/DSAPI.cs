@@ -1,9 +1,5 @@
 ﻿using DrillSIM_API.API;
 using DrillSIM_API.Packages;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using EWIM.Classes;
 using EWIM.Models;
 
@@ -45,7 +41,7 @@ namespace EWIM.System {
             hookLoad.UpdateValue(WellControlManager.Hookload.Get());
             indicators.UpdateIndicatorValue(hookLoad);
 
-            mudWeight.UpdateValue(WellControlManager.MudDensity.Get());
+            mudWeight.UpdateValue(WellControlManager.MudDensity.Get() / 7.4805);
             indicators.UpdateIndicatorValue(mudWeight);
         }
     }

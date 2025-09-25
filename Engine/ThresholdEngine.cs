@@ -7,13 +7,13 @@ namespace EWIM.Engine {
   public static class ThresholdEngine {
     private static readonly Dictionary<IndicatorName, Threshold> Thresholds = new Dictionary<IndicatorName, Threshold>
     {
-      { IndicatorName.ReturnFlowPercent, new Threshold { GreenMax = 2, YellowMax = 5 } },
-      { IndicatorName.PitGainBbl, new Threshold { GreenMax = 0.5, YellowMax = 1.5 } },
-      { IndicatorName.StandpipePressure, new Threshold { GreenMax = 500, YellowMax = 1000 } },
       { IndicatorName.Rop, new Threshold { GreenMax = 100, YellowMax = 200 } },
       { IndicatorName.Wob, new Threshold { GreenMax = 20000, YellowMax = 40000 } },
-      { IndicatorName.HookLoad, new Threshold { GreenMax = -1000, YellowMax = -5000 } },
-      { IndicatorName.MudWeight, new Threshold { GreenMax = 0.2, YellowMax = 0.5 } }
+      { IndicatorName.ReturnFlowPercent, new Threshold { GreenMax = 0.20, YellowMax = 0.3 } },
+      { IndicatorName.PitGainBbl, new Threshold { GreenMax = 205, YellowMax = 210 } },
+      { IndicatorName.StandpipePressure, new Threshold { GreenMax = 100, YellowMax = 200 } },
+      { IndicatorName.HookLoad, new Threshold { GreenMax = 300000, YellowMax = 500000 } },
+      { IndicatorName.MudWeight, new Threshold { GreenMax = 10.1, YellowMax = 11 } }
     };
 
     public static RiskLevel ComputeRiskLevel(Indicator data) {
