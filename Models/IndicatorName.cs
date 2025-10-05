@@ -5,6 +5,7 @@ namespace EWIM.Models {
     ReturnFlowPercent,
     PitGainBbl,
     StandpipePressure,
+    CasingPressure,
     HookLoad,
     MudWeight
   }

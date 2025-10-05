@@ -41,6 +41,8 @@ namespace EWIM.Services {
       Console.WriteLine("  S - Stop current baseline capture");
       Console.WriteLine("  H - Show baseline history");
       Console.WriteLine("  R - Reset to default thresholds");
+      Console.WriteLine("  N - Reset orange sequence numbering");
+      Console.WriteLine("  O - Show orange sequence summary");
       Console.WriteLine("======================================");
       PauseForUserInput();
     }
@@ -68,6 +70,14 @@ namespace EWIM.Services {
 
         case ConsoleKey.R:
           ResetToDefaults();
+          break;
+
+        case ConsoleKey.N:
+          ResetOrangeSequence();
+          break;
+
+        case ConsoleKey.O:
+          ShowOrangeSequenceSummary();
           break;
 
         case ConsoleKey.T:
@@ -385,6 +395,51 @@ namespace EWIM.Services {
         Console.WriteLine("Package reading has been disabled.");
       }
       PauseForUserInput();
+    }
+
+    private void ResetOrangeSequence() {
+      try {
+        IndicatorSequenceTracker.Instance.ResetSequence();
+        Console.Clear();
+        Console.WriteLine("=== Orange Sequence Reset ===");
+        Console.WriteLine("Orange indicator sequence numbering has been reset.");
+        Console.WriteLine("Next indicator to turn orange will be numbered #1.");
+        PauseForUserInput();
+      } catch (Exception ex) {
+        Console.WriteLine($"Error resetting orange sequence: {ex.Message}");
+        PauseForUserInput();
+      }
+    }
+
+    private void ShowOrangeSequenceSummary() {
+      try {
+        var orangeSequence = IndicatorSequenceTracker.Instance.GetCurrentOrangeSequence();
+        var totalOrange = IndicatorSequenceTracker.Instance.GetTotalOrangeIndicators();
+
+        Console.Clear();
+        Console.WriteLine("=== Orange Sequence Summary ===");
+
+        if (totalOrange == 0) {
+          Console.WriteLine("No indicators are currently orange.");
+        } else {
+          Console.WriteLine($"Total Orange Indicators: {totalOrange}");
+          Console.WriteLine();
+          Console.WriteLine($"{"Sequence #",-12} {"Indicator",-20}");
+          Console.WriteLine(new string('-', 35));
+
+          // Sort by sequence number for display
+          var sortedSequence = orangeSequence.OrderBy(kvp => kvp.Value);
+          foreach (var kvp in sortedSequence) {
+            Console.WriteLine($"{kvp.Value,-12} {kvp.Key,-20}");
+          }
+        }
+
+        Console.WriteLine();
+        PauseForUserInput();
+      } catch (Exception ex) {
+        Console.WriteLine($"Error showing orange sequence summary: {ex.Message}");
+        PauseForUserInput();
+      }
     }
 
     private void OnCaptureCompleted() {

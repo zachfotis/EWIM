@@ -13,10 +13,11 @@ namespace EWIM.System {
         private readonly RawIndicator returnFlow = new RawIndicator(IndicatorName.ReturnFlowPercent);
         private readonly RawIndicator pitGain = new RawIndicator(IndicatorName.PitGainBbl);
         private readonly RawIndicator standpipePressure = new RawIndicator(IndicatorName.StandpipePressure);
+        private readonly RawIndicator casingPressure = new RawIndicator(IndicatorName.CasingPressure);
         private readonly RawIndicator hookLoad = new RawIndicator(IndicatorName.HookLoad);
         private readonly RawIndicator mudWeight = new RawIndicator(IndicatorName.MudWeight);
 
-        private bool isPackageEnabled = true; // Start enabled by default
+        private bool isPackageEnabled = true;
         public bool IsPackageEnabled => isPackageEnabled;
 
         public DSAPI(Indicators indicators) {
@@ -24,7 +25,6 @@ namespace EWIM.System {
         }
 
         protected override void Initialise() {
-            // Initialize package as enabled - EWIM starts with control
             try {
                 if (WellControlManager.Instance != null) {
                     WellControlManager.Instance.EnablePackage();
@@ -34,7 +34,6 @@ namespace EWIM.System {
                 }
             } catch (Exception ex) {
                 Console.WriteLine($"Warning during package initialization: {ex.Message}");
-                // Continue anyway - the toggle will work when user needs it
             }
         }
 
@@ -43,8 +42,6 @@ namespace EWIM.System {
             if (isPackageEnabled) {
                 try {
                     if (WellControlManager.Instance == null) {
-                        // Don't immediately disable - might be temporarily unavailable during package switching
-                        // Just skip this update cycle
                         return;
                     }
 
@@ -62,6 +59,9 @@ namespace EWIM.System {
 
                     standpipePressure.UpdateValue(WellControlManager.DrillPipePressure.Get());
                     indicators.UpdateIndicatorValue(standpipePressure);
+
+                    casingPressure.UpdateValue(WellControlManager.CasingPressure.Get());
+                    indicators.UpdateIndicatorValue(casingPressure);
 
                     hookLoad.UpdateValue(WellControlManager.Hookload.Get());
                     indicators.UpdateIndicatorValue(hookLoad);

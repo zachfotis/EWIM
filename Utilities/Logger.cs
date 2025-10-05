@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using EWIM.Classes;
 using EWIM.Models;
 using EWIM.Engine;
+using EWIM.Services;
 
 namespace EWIM.Utilities {
   public static class Logger {
@@ -34,12 +35,12 @@ namespace EWIM.Utilities {
         Console.WriteLine($"Package Reading: {status} | Control: {control}");
       }
 
-      Console.WriteLine($"{"Indicator",-21}{"Value",-9} {"Risk",-8} {"Green ≤",-9} {"Yellow ≤",-9}");
-      Console.WriteLine("---------------------------------------------------------------");
+      Console.WriteLine($"{"Indicator",-21}{"Value",-9} {"Risk",-8} {"Seq#",-6} {"Green ≤",-9} {"Yellow ≤",-9}");
+      Console.WriteLine("------------------------------------------------------------------------");
     }
 
     private static void PrintInputPrompt() {
-      Console.WriteLine("\nAvailable Commands: [C]apture | [V]iew | [T]status | [P]toggle | [E]enable | [D]disable | [?]help | [Q]uit");
+      Console.WriteLine("\nAvailable Commands: [C]apture | [V]iew | [T]status | [P]toggle | [E]enable | [D]disable | [N]reset seq | [O]range summary | [?]help | [Q]uit");
       Console.Write("Command: ");
     }
 
@@ -52,6 +53,10 @@ namespace EWIM.Utilities {
       var threshold = thresholds.ContainsKey(indicator.Name) ? thresholds[indicator.Name] : null;
       var greenMax = threshold?.GreenMax.ToString("F2") ?? "N/A";
       var yellowMax = threshold?.YellowMax.ToString("F2") ?? "N/A";
+
+      // Get sequence number for orange indicators
+      var sequenceNumber = IndicatorSequenceTracker.Instance.GetOrangeSequenceNumber(indicator.Name);
+      var sequenceDisplay = sequenceNumber?.ToString() ?? "-";
 
       Console.Write($"{screenName,-21}{value,-9:F2}");
 
@@ -70,6 +75,9 @@ namespace EWIM.Utilities {
       Console.ForegroundColor = ConsoleColor.Black;
       Console.Write($" {riskLevel,-6} ");
       Console.ResetColor();
+
+      // Print sequence number
+      Console.Write($" {sequenceDisplay,-4} ");
 
       // Print thresholds
       Console.WriteLine($" {greenMax,-9} {yellowMax,-9}");

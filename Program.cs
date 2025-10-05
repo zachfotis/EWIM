@@ -4,7 +4,6 @@ using EWIM.Classes;
 using EWIM.Utilities;
 using EWIM.System;
 using EWIM.Services;
-using System.IO;
 
 namespace EWIM {
   internal static class Program {

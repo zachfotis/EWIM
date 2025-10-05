@@ -10,6 +10,8 @@ public static class IndicatorNameExtensions {
         return "Pit Gain (bbl)";
       case IndicatorName.StandpipePressure:
         return "SPP (psi)";
+      case IndicatorName.CasingPressure:
+        return "Casing Pressure (psi)";
       case IndicatorName.Rop:
         return "ROP (ft/hr)";
       case IndicatorName.HookLoad:

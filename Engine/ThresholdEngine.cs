@@ -29,20 +29,33 @@ namespace EWIM.Engine {
     public static RiskLevel ComputeRiskLevel(Indicator data) {
       if (!_thresholds.ContainsKey(data.Name)) {
         // Fallback to default if threshold not found
-        return RiskLevel.Green;
+        var defaultRisk = RiskLevel.Green;
+        IndicatorSequenceTracker.Instance.UpdateIndicatorStatus(data.Name, defaultRisk);
+        return defaultRisk;
+      }
+
+      // Do not set red for indicators with value 0
+      if (data.Value == 0) {
+        var greenRisk = RiskLevel.Green;
+        IndicatorSequenceTracker.Instance.UpdateIndicatorStatus(data.Name, greenRisk);
+        return greenRisk;
       }
 
       var currentThreshold = _thresholds[data.Name];
+      RiskLevel riskLevel;
 
       if (data.Value >= currentThreshold.YellowMax) {
-        return RiskLevel.Red;
+        riskLevel = RiskLevel.Red;
+      } else if (data.Value >= currentThreshold.GreenMax && data.Value <= currentThreshold.YellowMax) {
+        riskLevel = RiskLevel.Yellow;
+      } else {
+        riskLevel = RiskLevel.Green;
       }
 
-      if (data.Value >= currentThreshold.GreenMax && data.Value <= currentThreshold.YellowMax) {
-        return RiskLevel.Yellow;
-      }
+      // Update sequence tracker
+      IndicatorSequenceTracker.Instance.UpdateIndicatorStatus(data.Name, riskLevel);
 
-      return RiskLevel.Green;
+      return riskLevel;
     }
 
     public static RiskLevel ComputeOverallRisk(Indicators indicatorData) {
