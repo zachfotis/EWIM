@@ -51,7 +51,7 @@ namespace EWIM.System {
                     wob.UpdateValue(WellControlManager.WeightOnBit.Get());
                     indicators.UpdateIndicatorValue(wob);
 
-                    returnFlow.UpdateValue(WellControlManager.FlowOut.Get());
+                    returnFlow.UpdateValue(WellControlManager.FlowOut.Get() - WellControlManager.FlowIn.Get());
                     indicators.UpdateIndicatorValue(returnFlow);
 
                     pitGain.UpdateValue(WellControlManager.ActiveTankVolume.Get());

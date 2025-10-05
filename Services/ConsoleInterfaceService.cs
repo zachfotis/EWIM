@@ -193,8 +193,12 @@ namespace EWIM.Services {
         // Update the threshold engine with new thresholds
         EWIM.Engine.ThresholdEngine.UpdateThresholds(newThresholds);
 
+        // Reset sequence numbering since we have new thresholds
+        IndicatorSequenceTracker.Instance.ResetSequence();
+
         Console.WriteLine("New thresholds applied successfully!");
         Console.WriteLine("Thresholds updated in monitoring system!");
+        Console.WriteLine("Sequence numbering reset for new threshold baseline!");
 
         // Clear captured samples after successful application
         _baselineCapture.ClearSamples();
@@ -467,9 +471,13 @@ namespace EWIM.Services {
         // Update the threshold engine with new thresholds
         EWIM.Engine.ThresholdEngine.UpdateThresholds(newThresholds);
 
+        // Reset sequence numbering since we have new thresholds
+        IndicatorSequenceTracker.Instance.ResetSequence();
+
         Console.WriteLine("=== Auto-Application Complete ===");
         Console.WriteLine("New thresholds applied successfully!");
         Console.WriteLine("Thresholds updated in monitoring system!");
+        Console.WriteLine("Sequence numbering reset for new threshold baseline!");
 
         // Clear captured samples after successful application
         _baselineCapture.ClearSamples();
