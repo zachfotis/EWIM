@@ -1,0 +1,28 @@
+Parameter
+Green
+Yellow
+Orange
+Flow Out High
+<3%
+3–5%
+>5%
+Active Pit High
+<1 bbl
+1–2 bbl
+>2 bbl
+Trip Tank Gain Rate
+<0.2 bbl/min
+0.2–0.5
+>0.5
+Pumps-Off Flow
+<15 s
+15–25 s
+>25 s
+Gas%
+<3%
+3–5%
+>5%
+SPP Low @ Const Flow
+<50 psi
+50–100
+>100
