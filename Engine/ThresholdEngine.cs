@@ -2,22 +2,37 @@ using System.Collections.Generic;
 using System.Linq;
 using EWIM.Classes;
 using EWIM.Models;
+using EWIM.Services;
 
 namespace EWIM.Engine {
   public static class ThresholdEngine {
-    private static readonly Dictionary<IndicatorName, Threshold> Thresholds = new Dictionary<IndicatorName, Threshold>
-    {
-      { IndicatorName.Rop, new Threshold { GreenMax = 100, YellowMax = 200 } },
-      { IndicatorName.Wob, new Threshold { GreenMax = 20000, YellowMax = 40000 } },
-      { IndicatorName.ReturnFlowPercent, new Threshold { GreenMax = 0.20, YellowMax = 0.3 } },
-      { IndicatorName.PitGainBbl, new Threshold { GreenMax = 205, YellowMax = 210 } },
-      { IndicatorName.StandpipePressure, new Threshold { GreenMax = 100, YellowMax = 200 } },
-      { IndicatorName.HookLoad, new Threshold { GreenMax = 300000, YellowMax = 500000 } },
-      { IndicatorName.MudWeight, new Threshold { GreenMax = 10.1, YellowMax = 11 } }
-    };
+    private static Dictionary<IndicatorName, Threshold> _thresholds;
+    private static ThresholdPersistenceService _persistenceService;
+
+    static ThresholdEngine() {
+      _persistenceService = new ThresholdPersistenceService();
+      LoadThresholds();
+    }
+
+    public static void LoadThresholds() {
+      _thresholds = _persistenceService.LoadThresholds();
+    }
+
+    public static Dictionary<IndicatorName, Threshold> GetCurrentThresholds() {
+      return new Dictionary<IndicatorName, Threshold>(_thresholds);
+    }
+
+    public static void UpdateThresholds(Dictionary<IndicatorName, Threshold> newThresholds) {
+      _thresholds = new Dictionary<IndicatorName, Threshold>(newThresholds);
+    }
 
     public static RiskLevel ComputeRiskLevel(Indicator data) {
-      var currentThreshold = Thresholds[data.Name];
+      if (!_thresholds.ContainsKey(data.Name)) {
+        // Fallback to default if threshold not found
+        return RiskLevel.Green;
+      }
+
+      var currentThreshold = _thresholds[data.Name];
 
       if (data.Value >= currentThreshold.YellowMax) {
         return RiskLevel.Red;
