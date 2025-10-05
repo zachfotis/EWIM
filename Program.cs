@@ -3,64 +3,65 @@ using System.Threading.Tasks;
 using EWIM.Classes;
 using EWIM.Utilities;
 using EWIM.System;
-using System.IO;
+using EWIM.Services;
 
 namespace EWIM {
   internal static class Program {
     private static readonly Indicators indicators = new Indicators();
+    private static readonly DynamicThresholdOrchestrator thresholdOrchestrator = new DynamicThresholdOrchestrator();
 
     static async Task Main() {
-      CleanupDSApiLogs();
-
-      DSAPI Simulation = new DSAPI(indicators);
-
-      Simulation.Simulate();
-
-      while (Simulation.IsRunning) {
-        Logger.Log(indicators);
-        await Task.Delay(2000);
-      }
-
-      Simulation.Exit();
-    }
-
-    private static void CleanupDSApiLogs() {
       try {
-        // Get current directory
-        var currentDir = Directory.GetCurrentDirectory();
+        Console.WriteLine("Starting EWIM - Early Warning Indicator Monitoring");
+        Console.WriteLine("===================================================");
 
-        // Find and delete all DS API log files in current directory
-        var logFiles = Directory.GetFiles(currentDir, "DSApi-*.log");
-        foreach (var logFile in logFiles) {
+        CleanupService.CleanupDSApiLogs();
+
+        DSAPI Simulation = new DSAPI(indicators);
+        Simulation.Simulate();
+
+        // Initialize the dynamic threshold system with DSAPI reference
+        thresholdOrchestrator.Initialize(Simulation);
+
+        Console.WriteLine("Drilling simulator connected and running...");
+        Console.WriteLine("Package reading is ENABLED - EWIM has control");
+        Console.WriteLine("Press 'P' to toggle package reading, or '?' for help\n");
+
+        while (Simulation.IsRunning) {
           try {
-            File.Delete(logFile);
-            Console.WriteLine($"Deleted DS API log file: {Path.GetFileName(logFile)}");
-          } catch {
-            // Ignore if file is in use or can't be deleted
-          }
-        }
+            // Process indicators for threshold monitoring
+            thresholdOrchestrator.ProcessIndicators(indicators);
 
-        // Also clean up log files in bin directories
-        var binPath = Path.Combine(currentDir, "bin");
-        if (Directory.Exists(binPath)) {
-          var binLogFiles = Directory.GetFiles(binPath, "DSApi-*.log", SearchOption.AllDirectories);
-          foreach (var logFile in binLogFiles) {
-            try {
-              File.Delete(logFile);
-              Console.WriteLine($"Deleted DS API log file: {logFile}");
-            } catch {
-              // Ignore if file is in use or can't be deleted
+            // Handle user input for calibration
+            if (!thresholdOrchestrator.HandleUserInput(indicators)) {
+              Console.WriteLine("User requested shutdown...");
+              break;
             }
+
+            // Log indicators (will only update display if no input is pending)
+            Logger.Log(indicators, Simulation);
+
+            // Shorter delay to make system more responsive
+            await Task.Delay(500);
+          } catch (Exception ex) {
+            // Log the error but continue running - don't exit on temporary issues
+            Console.WriteLine($"Temporary error in main loop: {ex.Message}");
+            Console.WriteLine("System will continue running...");
+            await Task.Delay(1000); // Wait a bit longer after errors
           }
         }
 
-        if (logFiles.Length > 0 || (Directory.Exists(binPath) && Directory.GetFiles(binPath, "DSApi-*.log", SearchOption.AllDirectories).Length > 0)) {
-          Console.WriteLine("DS API log cleanup completed.");
+        // If we get here, check why the simulation stopped
+        if (!Simulation.IsRunning) {
+          Console.WriteLine("Simulation stopped running - this may be due to DrillSIM connection issues.");
         }
+
+        Simulation.Exit();
       } catch (Exception ex) {
-        Console.WriteLine($"Error during DS API log cleanup: {ex.Message}");
+        Console.WriteLine($"Fatal error: {ex.Message}");
+        Console.WriteLine("Press any key to exit...");
+        Console.ReadKey();
       }
     }
-
   }
 }
